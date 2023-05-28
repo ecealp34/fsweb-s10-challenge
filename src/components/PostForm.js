@@ -3,6 +3,9 @@ import { useForm } from "react-hook-form";
 import { nanoid } from "nanoid";
 import { useHistory } from "react-router";
 import Gratitude from "./../assets/grForm.png";
+import { notEkleAPI } from "../actions";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function PostForm() {
   const {
@@ -13,6 +16,8 @@ export default function PostForm() {
 
   const history = useHistory();
 
+  const dispatch = useDispatch();
+
   function onSubmit(data) {
     const yeniNot = {
       id: nanoid(),
@@ -21,25 +26,29 @@ export default function PostForm() {
         .filter((v) => v !== "")
         .join("|"),
     };
-
+    dispatch(notEkleAPI(yeniNot));
+    toast.info("Notunuz gönderildi", {
+    autoClose: 400,
+    });
     // burada ilgili eylemi dispatch edin
     // toast mesajı gösterin
     // sonra aşağıdaki satırı aktifleştirin
-    // setTimeout(() => history.push("/notlar"), 2000);
+    setTimeout(() => history.push("/notlar"), 1000);
+    // history.push("/notlar");
   }
 
-  const inputCx = "border border-zinc-300 h-9 rounded-none text-sm px-2 w-full";
+  const inputCx = "border border-zinc-300 h-9 rounded-none text-sm px-2 w-full bg-red-100 opacity-50";
 
   return (
     <div className="flex flex-col sm:flex-row beyazKutu">
       <div className="flex-1">
-        <img src={Gratitude} alt="" className="block object-cover h-full" />
+        <img src={Gratitude} alt="" className="block object-cover h-full rounded-md" />
       </div>
 
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-3 p-8 flex-1"
+        className="flex flex-col gap-3 p-8 flex-1 "
       >
         <h1>Minnettar hissediyorum, çünkü...</h1>
         <p className="text-xs">
@@ -47,7 +56,7 @@ export default function PostForm() {
           listelemekten, minnettar olunan şeylere dair daha uzun ve kapsamlı
           yansıtmalara kadar pek çok şeyden oluşabilir.
         </p>
-        <p className="text-stone-700 my-3 text-xs">
+        <p className="text-stone-700 my-3 text-xs bg-red-200 italic">
           Her gün belli saatlerde 3 maddeden oluşan bir liste
           yapmak, bu alışkanlığa iyi bir başlangıç noktası sayılır.
         </p>

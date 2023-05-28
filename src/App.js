@@ -61,7 +61,7 @@ export default function App() {
         </Route>
 
         <Route path="/notlar">
-          <div className="max-w-md mx-auto px-4 pb-8">
+          <div className="max-w-md mx-auto px-4 pb-8 drop-shadow-2xl">
             <PostList />
           </div>
         </Route>
